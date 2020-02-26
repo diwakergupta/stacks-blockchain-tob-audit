@@ -17,3 +17,11 @@ path = ".."
 # Prevent this from interfering with workspaces
 [workspace]
 members = ["."]
+
+[[bin]]
+name = "c32_address_decode"
+path = "fuzz_targets/c32_address_decode.rs"
+
+[[bin]]
+name = "c32_address_roundtrip"
+path = "fuzz_targets/c32_address_roundtrip.rs"
