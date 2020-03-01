@@ -197,10 +197,31 @@ fn eval_all (expressions: &[SymbolicExpression],
     Ok(last_executed)
 }
 
+use crypto::digest::Digest;
+use crypto::sha1::Sha1;
+use std::env;
+use std::io::prelude::*;
+use std::fs;
+use std::path::PathBuf;
+
+fn record_program(corpus: &str, program: &str) {
+    #[cfg(test)]
+    {
+        fs::create_dir(corpus).unwrap_or_default();
+        let mut hasher = crypto::sha1::Sha1::new();
+        hasher.input(program.as_bytes());
+        let hex = hasher.result_str();
+        let path = PathBuf::from(corpus).join(PathBuf::from(&hex));
+        let mut file = fs::File::create(path).unwrap();
+        file.write_all(program.as_bytes()).unwrap();
+    }
+}
+
 /* Run provided program in a brand new environment, with a transient, empty
  *  database.
  */
 pub fn execute(program: &str) -> Result<Option<Value>> {
+    record_program("corpus_execute", program);
     let contract_id = QualifiedContractIdentifier::transient();
     let mut contract_context = ContractContext::new(contract_id.clone());
     let mut marf = MemoryBackingStore::new();
