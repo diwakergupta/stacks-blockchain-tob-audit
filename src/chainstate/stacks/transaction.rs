@@ -54,12 +54,39 @@ use vm::representations::{
 
 use vm::types::serialization::SerializationError as clarity_serialization_error;
 
+use crypto::digest::Digest;
+use crypto::sha1::Sha1;
+use std::env;
+use std::io::prelude::*;
+use std::fs;
+use std::path::PathBuf;
+
+// smoelius: record_data is buggy in that it assumes the caller is going to read the entire
+// input stream.  Still, it suffices for generating a corpus.
+fn record_data<R: Read>(corpus: &str, fd: &mut R) -> Vec<u8>
+{
+    let mut buffer = Vec::new();
+    fd.read_to_end(&mut buffer).unwrap();
+    #[cfg(test)]
+    {
+        fs::create_dir(corpus).unwrap_or_default();
+        let mut hasher = crypto::sha1::Sha1::new();
+        hasher.input(&buffer);
+        let hex = hasher.result_str();
+        let path = PathBuf::from(corpus).join(PathBuf::from(&hex));
+        let mut file = fs::File::create(path).unwrap();
+        file.write_all(&buffer).unwrap();
+    }
+    buffer
+}
+
 impl StacksMessageCodec for Value {
     fn consensus_serialize<W: Write>(&self, fd: &mut W) -> Result<(), net_error> {
         self.serialize_write(fd).map_err(net_error::WriteError)
     }
 
     fn consensus_deserialize<R: Read>(fd: &mut R) -> Result<Value, net_error> {
+        let fd = &mut &record_data("corpus_value", fd)[..];
         Value::deserialize_read(fd, None)
             .map_err(|e| match e {
                 clarity_serialization_error::IOError(e) => net_error::ReadError(e.err),

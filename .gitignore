@@ -70,3 +70,6 @@ node_modules
 tarpaulin-report.html
 osxcross
 osxcross*.tar.xz
+
+
+/corpus_*

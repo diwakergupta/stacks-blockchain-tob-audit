@@ -40,6 +40,7 @@ extern crate regex;
 extern crate time;
 extern crate byteorder;
 extern crate mio;
+extern crate crypto;
 
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate serde_json;
