@@ -1029,7 +1029,7 @@ impl TrieFileStorage {
                     .open(&block_path)
                     .map_err(|e| {
                         if e.kind() == io::ErrorKind::NotFound {
-                            debug!("File not found: {:?}", &block_path);
+                            // debug!("File not found: {:?}", &block_path);
                             Error::NotFoundError
                         }
                         else {
