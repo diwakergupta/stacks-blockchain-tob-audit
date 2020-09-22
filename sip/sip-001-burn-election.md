@@ -225,7 +225,7 @@ rely on a well-connected peer network to gossip all blocks.
   of the burn chain will know how much cumulative cryptocurrency was destroyed
 and how long each competing fork is.  Existing
 blockchains do not have this -- a private fork can coexist with all public
-forks and be released at its creators' discression (often with harmful effects
+forks and be released at its creators' discretion (often with harmful effects
 on the peer network).
 
 The Stacks blockchain leverages these properties to implement three key features:
@@ -562,7 +562,7 @@ transaction batch and then proceeds to stream microblocks.
 
 ### Building off the latest block
 
-Like existing blockchains, the leader can selet any prior block as its preferred
+Like existing blockchains, the leader can select any prior block as its preferred
 chain tip.  In the Stacks blockchain, this allows leaders to tolerate block loss by building
 off of the latest-built ancestor block's parent.
 
@@ -617,7 +617,7 @@ omitting transactions.
 ### Leader volume limits
 
 A leader propagates blocks irrespective of the underlying burn chain's capacity.
-This poses a DDoS vulnerability to the network:  a high-transaction-volume
+This poses a denial-of-service vulnerability to the network:  a high-transaction-volume
 leader may swamp the peer network with so many
 transactions and microblocks that the rest of the nodes cannot keep up.  When the next
 epoch begins and a new leader is chosen, it would likely orphan many of the high-volume
