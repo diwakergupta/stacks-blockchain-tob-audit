@@ -335,7 +335,7 @@ which they submitted a proof of burn is accepted into the "best" fork.
 ### Election Protocol
 
 To encourage safety and liveness when appending to the blockchain, the leader
-election protocol requires leaders to burn cryptocurrency and spend energy before they know
+election protocol requires leader candidates to burn cryptocurrency and spend energy before they know
 whether or not they will be selected.  To achieve this, the protocol for electing a leader
 runs in three steps.  Each leader candidate submits two transactions to the burn chain -- one to register
 their public key used for the election, and one to commit to their token burn and chain tip.
@@ -373,10 +373,10 @@ in advance.  However, a key can only be used once.
 
 #### Step 2: Burn & Commit
 
-Once a leader's key transaction is confirmed, the leader will be a candidate for election
+Once a leader candidate's key transaction is confirmed, the candidate will be eligible for election
 for a subsequent burn block in which it must send a _commitment transaction_.
-This transaction burns the leader's cryptocurrency (proof of burn)
-and registers the leader's preferred chain tip and new VRF seed
+This transaction burns the leader candidate's cryptocurrency (proof of burn)
+and registers the leader candidate's preferred chain tip and new VRF seed
 for selection in the cryptographic sortition.
 
 This transaction commits to the following information:
@@ -384,12 +384,12 @@ This transaction commits to the following information:
 * the amount of cryptocurrency burned to produce the block
 * the chain tip that the block will be appended to
 * the proving key that will have been used to generate the block's seed
-* the new VRF seed if this leader is chosen
-* a digest of all transaction data that the leader _promises_ to include in their block (see
+* the new VRF seed if this leader candidate is chosen
+* a digest of all transaction data that the leader candidate _promises_ to include in their block (see
   "Operation as a leader").
 
 The seed value is the cryptographic hash of the chain tip's seed (which is available on the burn chain)
-and this block's VRF proof generated with the leader's proving key.  The VRF proof
+and this block's VRF proof generated with the leader candidate's proving key.  The VRF proof
 itself is stored in the Stacks block header off-chain, but its hash -- the seed 
 for the next sortition -- is committed to on-chain.
 
@@ -399,7 +399,7 @@ determine which block commitment "wins."
 
 #### Step 3: Sortition
 
-In each election block, there is one election across all candidate leaders (across
+In each election block, there is one election across all leader candidates (across
 all chain tips).  The next block is determined with the following algorithm:
 
 ```python
