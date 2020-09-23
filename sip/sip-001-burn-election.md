@@ -485,7 +485,7 @@ pseudo-random, and since the leader already
 committed to the key used to generate it, the leader cannot bias the new
 seed value once they learn the current seed.
 
-Because there is one election per burn chain block, there is one valid seed per
+Because there is at most one election per burn chain block, there is at most one valid seed per
 epoch (and it may be a seed from a non-canonical fork's chain tip).  However as
 long as the winning leader produces a valid block, a new, unbiased seed will be
 generated.
