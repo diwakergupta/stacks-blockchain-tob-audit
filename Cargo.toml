@@ -30,6 +30,10 @@ path = "src/clarity_cli.rs"
 name = "blockstack-cli"
 path = "src/blockstack_cli.rs"
 
+[[bin]]
+name = "c32_address_cli"
+path = "src/c32_address_cli.rs"
+
 [[bench]]
 name = "marf_bench"
 harness = false
